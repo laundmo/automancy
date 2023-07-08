@@ -5,7 +5,7 @@ use std::io::{BufReader, Read, Write};
 
 use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
-use toml_edit::{Item, Value};
+
 use winit::event::VirtualKeyCode;
 
 use automancy_defs::hashbrown::HashMap;
@@ -17,6 +17,7 @@ use crate::input::{actions, KeyAction};
 pub struct Options {
     pub graphics: GraphicsOptions,
     pub audio: AudioOptions,
+    pub gui: GuiOptions,
     pub keymap: HashMap<VirtualKeyCode, KeyAction>,
 }
 lazy_static! {
@@ -34,6 +35,7 @@ impl Default for Options {
         Self {
             graphics: Default::default(),
             audio: Default::default(),
+            gui: Default::default(),
             keymap: DEFAULT_KEYMAP.clone(),
         }
     }
@@ -98,6 +100,7 @@ pub struct GraphicsOptions {
     pub scale: f32,
     pub aa: AALevel,
 }
+
 impl Default for GraphicsOptions {
     fn default() -> Self {
         Self {
@@ -105,6 +108,21 @@ impl Default for GraphicsOptions {
             fullscreen: false,
             scale: 1.0,
             aa: AALevel::MSAA,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct GuiOptions {
+    pub scale: f32,
+    pub font: String,
+}
+
+impl Default for GuiOptions {
+    fn default() -> Self {
+        Self {
+            scale: 1.0,
+            font: "iosevka-extended.ttf".to_string(),
         }
     }
 }
