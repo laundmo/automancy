@@ -455,7 +455,9 @@ pub fn on_event(
         gui.context
             .begin_frame(gui.state.take_egui_input(&renderer.gpu.window));
 
-        if !setup.input_handler.key_active(&KeyActions::HideGui) {
+        if !setup.input_handler.key_active(&KeyActions::HideGui)
+            || loop_store.gui_state != GuiState::Ingame
+        {
             if loop_store.popup_state == PopupState::None {
                 match loop_store.gui_state {
                     GuiState::MainMenu => {
